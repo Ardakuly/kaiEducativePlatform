@@ -1,4 +1,4 @@
-package spring.educativeprojects.kaieducativeplatform;
+package kaieducativeplatform;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
