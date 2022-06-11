@@ -1,17 +1,21 @@
 package spring.educativeprojects.kaieducativeplatform.service;
 
+import spring.educativeprojects.kaieducativeplatform.entities.Sphere;
+
 import java.util.Set;
 
 public interface CrudService <T, ID> {
 
-    Set<T> findAll();
+    public Set<T> findAll();
 
-    T findById(ID id);
+    public T findById(ID id);
 
-    T save(T object);
+    public T findByName(String name);
 
-    void delete(T object);
+    public T save(T object);
 
-    void deleteById(ID id);
+    public void delete(T object);
+
+    public void deleteById(ID id);
 
 }

@@ -7,12 +7,10 @@ import javax.persistence.OneToMany;
 import java.util.Set;
 
 @Entity
-public class Sphere extends BaseEntity{
+public class Instructor extends BaseEntity {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sphere", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "instructor", fetch = FetchType.EAGER)
     private Set<Course> courses;
-
-    //------------------ Getters and Setters------------------//
 
     public Set<Course> getCourses() {
         return courses;
@@ -21,6 +19,4 @@ public class Sphere extends BaseEntity{
     public void setCourses(Set<Course> courses) {
         this.courses = courses;
     }
-
-    //----------------------END------------------------------//
 }

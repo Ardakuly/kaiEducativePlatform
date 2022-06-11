@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Spheres</title>
+</head>
+<body>
+<h1>Spheres of education</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Sphere ID</th>
+                <th>Sphere Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="sphere : ${spheres}">
+                <td th:text = "${sphere.id}">1</td>
+                <td th:text="${sphere.name}">ICT</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

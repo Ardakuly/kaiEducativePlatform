@@ -10,19 +10,19 @@ import spring.educativeprojects.kaieducativeplatform.service.SphereService;
 @Controller
 public class SphereController {
 
-    private final SphereService serviceSphere;
+    private final SphereService serviceSpheres;
 
     @Autowired
-    public SphereController(SphereService sphereService) {
-        this.serviceSphere = sphereService;
+    public SphereController(SphereService serviceSpheres) {
+        this.serviceSpheres = serviceSpheres;
     }
 
     @RequestMapping("/spheres")
     public String findAllSphere(Model model) {
 
-        model.addAttribute("spheres", serviceSphere.findAll());
+        model.addAttribute("spheres", serviceSpheres.findAll());
 
-        return "sphereIndex";
+        return "allSpheresIndex";
 
     }
 }

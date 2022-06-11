@@ -4,8 +4,7 @@ import org.springframework.stereotype.Service;
 import spring.educativeprojects.kaieducativeplatform.entities.Sphere;
 
 
-public interface SphereService extends CrudService<Sphere, Integer>{
 
-    public Sphere findByName(String name);
+public interface SphereService extends CrudService<Sphere, Integer> {
 
 }

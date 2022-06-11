@@ -21,17 +21,17 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        System.out.println("Saving ICT");
-        Sphere sphere1 = new Sphere(1, "ICT");
-        sphereService.save(sphere1);
-
-        System.out.println("Saving Security");
-        Sphere sphere2 = new Sphere(2, "Security");
-        sphereService.save(sphere2);
-
-        System.out.println("Saving Programming");
-        Sphere sphere3 = new Sphere(3, "Programming");
-        sphereService.save(sphere3);
+//        System.out.println("Saving ICT");
+//        Sphere sphere1 = new Sphere(1, "ICT");
+//        sphereService.save(sphere1);
+//
+//        System.out.println("Saving Security");
+//        Sphere sphere2 = new Sphere(2, "Security");
+//        sphereService.save(sphere2);
+//
+//        System.out.println("Saving Programming");
+//        Sphere sphere3 = new Sphere(3, "Programming");
+//        sphereService.save(sphere3);
 
 
     }
