@@ -9,15 +9,21 @@
     <table>
         <thead>
             <tr>
+                <th>Course ID</th>
+                <th>Course Name</th>
+                <th>Author ID</th>
+                <th>Instructor ID</th>
                 <th>Sphere ID</th>
-                <th>Sphere Name</th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="sphere : ${spheres}">
-                <td th:text = "${sphere.id}">1</td>
-                <td th:text="${sphere.name}">ICT</td>
-            </tr>
+        <tr th:each="course : ${courses}">
+            <td th:text = "${course.id}">1</td>
+            <td th:text="${course.name}">ICT</td>
+            <td th:text = "${course.author.getName()}">1</td>
+            <td th:text="${course.instructor.getName()}">ICT</td>
+            <td th:text = "${course.sphere.getName()}">1</td>
+        </tr>
         </tbody>
     </table>
 </body>

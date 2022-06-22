@@ -1,16 +1,15 @@
-package spring.educativeprojects.kaieducativeplatform.service;
+package spring.educativeprojects.kaieducativeplatform.services;
 
-import spring.educativeprojects.kaieducativeplatform.entities.Sphere;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
+
 
 public interface CrudService <T, ID> {
 
     public Set<T> findAll();
 
     public T findById(ID id);
-
-    public T findByName(String name);
 
     public T save(T object);
 

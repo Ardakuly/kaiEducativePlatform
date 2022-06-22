@@ -4,20 +4,25 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Entity
+@Table(name = "courses")
 public class Course extends BaseEntity{
 
-    @ManyToOne
+    @JoinColumn(name = "author_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Author author;
 
-    @ManyToOne
+    @JoinColumn(name = "instructor_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Instructor instructor;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, /*mappedBy = "course",*/ fetch = FetchType.EAGER)
     private Set<Module> modules = new HashSet<>();
 
-    @ManyToOne
-    private Sphere sphere;
+    // @JoinColumn(name = "sphere_id")
+    //@ManyToOne
+   //private Sphere sphere;
 
     public Author getAuthor() {
         return author;
@@ -43,11 +48,11 @@ public class Course extends BaseEntity{
         this.modules = modules;
     }
 
-    public Sphere getSphere() {
-        return sphere;
-    }
-
-    public void setSphere(Sphere sphere) {
-        this.sphere = sphere;
-    }
+//    public Sphere getSphere() {
+//        return sphere;
+//    }
+//
+//    public void setSphere(Sphere sphere) {
+//        this.sphere = sphere;
+//    }
 }
