@@ -6,6 +6,7 @@ import spring.educativeprojects.kaieducativeplatform.dto.LessonDTO;
 import spring.educativeprojects.kaieducativeplatform.dto.ModuleDTO;
 import spring.educativeprojects.kaieducativeplatform.entities.Course;
 import spring.educativeprojects.kaieducativeplatform.entities.Lesson;
+import spring.educativeprojects.kaieducativeplatform.repositories.CourseRepository;
 import spring.educativeprojects.kaieducativeplatform.repositories.LessonRepository;
 import spring.educativeprojects.kaieducativeplatform.repositories.ModuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import java.util.Set;
 @Service
 public class ModuleServiceImpl implements ModuleService {
 
+    public final CourseRepository repositoryCourse;
+
     private final ModuleRepository repositoryModule;
 
     private final LessonRepository repositoryLesson;
@@ -29,8 +32,9 @@ public class ModuleServiceImpl implements ModuleService {
     private final ModuleDTOToModuleConverter converterModule;
 
     @Autowired
-    public ModuleServiceImpl(ModuleRepository repositoryModule, LessonRepository repositoryLesson, ModuleToModuleDTOConverter converterModuleDTO,
+    public ModuleServiceImpl(CourseRepository repositoryCourse, ModuleRepository repositoryModule, LessonRepository repositoryLesson, ModuleToModuleDTOConverter converterModuleDTO,
                              ModuleDTOToModuleConverter converterModule) {
+        this.repositoryCourse = repositoryCourse;
         this.repositoryModule = repositoryModule;
         this.repositoryLesson = repositoryLesson;
         this.converterModuleDTO = converterModuleDTO;
@@ -47,13 +51,29 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
+    public Set<ModuleDTO> findAllByCourse(String name) {
+        Course course = repositoryCourse.findByName(name).get();
+
+        Set<ModuleDTO> modulesDTO = new HashSet<>();
+
+        for(Module module : course.getModules()) {
+            modulesDTO.add(converterModuleDTO.convert(module));
+        }
+
+        return modulesDTO;
+    }
+
+    @Override
     public ModuleDTO findById(Integer id) {
         Optional<Module> optModule = repositoryModule.findById(id);
 
         Module module = null;
-        if(optModule.isPresent()) module = optModule.get();
+        if(optModule.isPresent()) {
+            module = optModule.get();
+            return converterModuleDTO.convert(module);
+        }
 
-        return converterModuleDTO.convert(module);
+        return null;
     }
 
     @Override
@@ -61,9 +81,12 @@ public class ModuleServiceImpl implements ModuleService {
         Optional<Module> optModule = repositoryModule.findByName(name);
 
         Module module = null;
-        if(optModule.isPresent()) module = optModule.get();
+        if(optModule.isPresent()) {
+            module = optModule.get();
+            return converterModuleDTO.convert(module);
+        }
 
-        return converterModuleDTO.convert(module);
+        return null;
     }
 
     @Override
