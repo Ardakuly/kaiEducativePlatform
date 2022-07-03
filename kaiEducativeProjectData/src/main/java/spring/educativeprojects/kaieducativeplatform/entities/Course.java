@@ -20,9 +20,9 @@ public class Course extends BaseEntity{
     @OneToMany(cascade = CascadeType.ALL, /*mappedBy = "course",*/ fetch = FetchType.EAGER)
     private Set<Module> modules = new HashSet<>();
 
-    // @JoinColumn(name = "sphere_id")
+    //@JoinColumn(name = "sphere_id")
     //@ManyToOne
-   //private Sphere sphere;
+    //private String sphere;
 
     public Author getAuthor() {
         return author;

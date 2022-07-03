@@ -11,6 +11,8 @@ public class AuthorToAuthorDTOConverter implements Converter<Author, AuthorDTO> 
 
     @Override
     public AuthorDTO convert(Author source) {
+        if (source == null) return null;
+
         final AuthorDTO authorCommand = new AuthorDTO();
 
         //authorCommand.setId(source.getId());

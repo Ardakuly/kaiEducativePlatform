@@ -11,4 +11,5 @@ public interface SphereService extends CrudService<SphereDTO, Integer> {
     public SphereDTO updateSphere(SphereDTO sphereDTO, Integer id);
 
     SphereDTO addCourses(SphereDTO sphereDTO, String name);
+
 }

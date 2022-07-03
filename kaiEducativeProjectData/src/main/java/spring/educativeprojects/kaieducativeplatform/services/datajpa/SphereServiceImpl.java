@@ -5,7 +5,6 @@ import spring.educativeprojects.kaieducativeplatform.converters.SphereDTOToSpher
 import spring.educativeprojects.kaieducativeplatform.converters.SphereToSphereDTOConverter;
 import spring.educativeprojects.kaieducativeplatform.dto.CourseDTO;
 import spring.educativeprojects.kaieducativeplatform.entities.Course;
-import spring.educativeprojects.kaieducativeplatform.entities.Module;
 import spring.educativeprojects.kaieducativeplatform.entities.Sphere;
 import spring.educativeprojects.kaieducativeplatform.repositories.CourseRepository;
 import spring.educativeprojects.kaieducativeplatform.repositories.SphereRepository;
@@ -79,7 +78,9 @@ public class SphereServiceImpl implements SphereService {
             if (repositoryCourse.findByName(course.getName()).isPresent()) {
                 course.setId(repositoryCourse.findByName(course.getName()).get().getId());
             }
+
         }
+
         Sphere sphereReturned = repositorySphere.save(sphere);
         return converterToSphereDTO.convert(sphereReturned);
     }
@@ -128,6 +129,9 @@ public class SphereServiceImpl implements SphereService {
     public void deleteById(Integer id) {
         repositorySphere.deleteById(id);
     }
+
+
+
 
     //----------------------END------------------------------//
 

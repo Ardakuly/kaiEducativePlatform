@@ -9,13 +9,10 @@ import spring.educativeprojects.kaieducativeplatform.entities.Author;
 import spring.educativeprojects.kaieducativeplatform.entities.Instructor;
 import spring.educativeprojects.kaieducativeplatform.entities.Module;
 import spring.educativeprojects.kaieducativeplatform.entities.Sphere;
-import spring.educativeprojects.kaieducativeplatform.repositories.AuthorRepository;
-import spring.educativeprojects.kaieducativeplatform.repositories.CourseRepository;
+import spring.educativeprojects.kaieducativeplatform.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import spring.educativeprojects.kaieducativeplatform.entities.Course;
-import spring.educativeprojects.kaieducativeplatform.repositories.InstructorRepository;
-import spring.educativeprojects.kaieducativeplatform.repositories.ModuleRepository;
 import spring.educativeprojects.kaieducativeplatform.services.CourseService;
 
 import java.util.HashSet;
@@ -25,6 +22,8 @@ import java.util.Set;
 @Service
 public class CourseServiceImpl implements CourseService {
 
+    private final SphereRepository repositorySphere;
+
     private final CourseRepository repositoryCourse;
 
     public final AuthorRepository repositoryAuthor;
@@ -33,7 +32,7 @@ public class CourseServiceImpl implements CourseService {
 
     public final ModuleRepository repositoryModule;
 
-    private final CourseToCourseDTOConverter converterToDTO;
+    private final CourseToCourseDTOConverter converterToCourseDTO;
 
     private final CourseDTOToCourseConverter converterToCourse;
 
@@ -42,14 +41,17 @@ public class CourseServiceImpl implements CourseService {
     private final InstructorDTOToInstructorConverter converterInstructor;
 
     @Autowired
-    public CourseServiceImpl(CourseRepository repositoryCourse, AuthorRepository repositoryAuthor, InstructorRepository repositoryInstructor, ModuleRepository repositoryModule, CourseToCourseDTOConverter converterToDTO,
+    public CourseServiceImpl(SphereRepository repositorySphere, CourseRepository repositoryCourse,
+                             AuthorRepository repositoryAuthor, InstructorRepository repositoryInstructor,
+                             ModuleRepository repositoryModule, CourseToCourseDTOConverter converterToDTO,
                              CourseDTOToCourseConverter converterToCourse, AuthorDTOToAuthorConverter converterAuthor,
                              InstructorDTOToInstructorConverter converterInstructor) {
+        this.repositorySphere = repositorySphere;
         this.repositoryCourse = repositoryCourse;
         this.repositoryAuthor = repositoryAuthor;
         this.repositoryInstructor = repositoryInstructor;
         this.repositoryModule = repositoryModule;
-        this.converterToDTO = converterToDTO;
+        this.converterToCourseDTO = converterToDTO;
         this.converterToCourse = converterToCourse;
         this.converterAuthor = converterAuthor;
         this.converterInstructor = converterInstructor;
@@ -60,7 +62,22 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Set<CourseDTO> findAll() {
         Set<CourseDTO> coursesDTO = new HashSet();
-        repositoryCourse.findAll().forEach(course -> coursesDTO.add(converterToDTO.convert(course)));
+        repositoryCourse.findAll().forEach(course -> coursesDTO.add(converterToCourseDTO.convert(course)));
+        return coursesDTO;
+    }
+
+    @Override
+    public Set<CourseDTO> findAllSpheresByCourse(String name) {
+        Optional<Sphere> sphereOpt = repositorySphere.findByName(name);
+
+        Set<CourseDTO> coursesDTO = new HashSet<>();
+
+        if (sphereOpt.isPresent()) {
+            for (Course course : sphereOpt.get().getCourses()) {
+                coursesDTO.add(converterToCourseDTO.convert(course));
+            }
+        }
+
         return coursesDTO;
     }
 
@@ -70,9 +87,12 @@ public class CourseServiceImpl implements CourseService {
         Optional<Course> optCourse = repositoryCourse.findById(id);
 
         Course course = null;
-        if(optCourse.isPresent()) course = optCourse.get();
+        if(optCourse.isPresent()) {
+            course = optCourse.get();
+            return converterToCourseDTO.convert(course);
+        }
 
-        return converterToDTO.convert(course);
+        return null;
     }
 
     @Override
@@ -81,9 +101,12 @@ public class CourseServiceImpl implements CourseService {
         Optional<Course> optCourse = repositoryCourse.findByName(name);
 
         Course course = null;
-        if(optCourse.isPresent()) course = optCourse.get();
+        if(optCourse.isPresent()) {
+            course = optCourse.get();
+            return converterToCourseDTO.convert(course);
+        }
 
-        return converterToDTO.convert(course);
+        return null;
     }
 
     private Course authorInstructorMapped(Course course) {
@@ -109,7 +132,7 @@ public class CourseServiceImpl implements CourseService {
         Course courseMapped = authorInstructorMapped(convertedCourse);
 
         Course course = repositoryCourse.save(courseMapped);
-        return converterToDTO.convert(course);
+        return converterToCourseDTO.convert(course);
     }
 
     @Override
@@ -127,7 +150,7 @@ public class CourseServiceImpl implements CourseService {
 
         Course sphereReturned = repositoryCourse.save(courseMapped);
 
-        return converterToDTO.convert(sphereReturned);
+        return converterToCourseDTO.convert(sphereReturned);
     }
 
     @Override
@@ -151,7 +174,7 @@ public class CourseServiceImpl implements CourseService {
         }
 
         Course returnedCourse = repositoryCourse.save(course);
-        return converterToDTO.convert(returnedCourse);
+        return converterToCourseDTO.convert(returnedCourse);
     }
 
 
@@ -163,6 +186,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void deleteById(Integer id) {
+        deleteCourseFromSphere(repositoryCourse.findById(id).get().getName());
         repositoryCourse.deleteById(id);
     }
 
@@ -170,7 +194,7 @@ public class CourseServiceImpl implements CourseService {
     public Set<CourseDTO> findByAuthor(AuthorDTO authorDTO) {
         Set<CourseDTO> coursesDTO = new HashSet<>();
         repositoryCourse.findByAuthor(converterAuthor.convert(authorDTO)).
-                forEach(course -> coursesDTO.add(converterToDTO.convert(course)));
+                forEach(course -> coursesDTO.add(converterToCourseDTO.convert(course)));
         return coursesDTO;
     }
 
@@ -178,8 +202,26 @@ public class CourseServiceImpl implements CourseService {
     public Set<CourseDTO> findByInstructor(InstructorDTO instructorDTO) {
         Set<CourseDTO> coursesDTO = new HashSet<>();
         repositoryCourse.findByInstructor(converterInstructor.convert(instructorDTO)).
-                forEach(course -> coursesDTO.add(converterToDTO.convert(course)));
+                forEach(course -> coursesDTO.add(converterToCourseDTO.convert(course)));
         return coursesDTO;
+    }
+
+    @Override
+    public void deleteCourseFromSphere(String name) {
+        Course course = repositoryCourse.findByName(name).get();
+
+        Set<Sphere> spheres = new HashSet<>();
+        repositorySphere.findAll().forEach(sphere -> spheres.add(sphere));
+
+        for (Sphere sphere : spheres) {
+            for (Course course1 : sphere.getCourses()) {
+                if (course1.getName().equals(course.getName())) {
+                    sphere.getCourses().remove(course1);
+                    repositorySphere.save(sphere);
+                }
+            }
+        }
+
     }
 
     //----------------------END------------------------------//
