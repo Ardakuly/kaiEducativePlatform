@@ -143,7 +143,7 @@ public class InstructorController {
         if (ValidatorInstructor.idEmptyInstructorValidator(id)) {
             throw new BadRequestException("Введенная значение пустой");
         }else if (ValidatorInstructor.idInstructorValidator(id)) {
-            throw new NumberFormatException("Веденный формат ID неействительный.");
+            throw new NumberFormatException("Веденный формат ID недействительный.");
         }else if (ValidatorInstructor.instructorIsNull(serviceInstructors.findById(new Integer(id)))) {
             throw new ResourceNotFoundException("Введенный ID не был найден в базе данных.");
         }

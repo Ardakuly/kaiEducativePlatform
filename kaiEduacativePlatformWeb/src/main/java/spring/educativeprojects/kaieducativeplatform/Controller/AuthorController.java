@@ -10,7 +10,7 @@ import spring.educativeprojects.kaieducativeplatform.exceptions.NameFormatExcept
 import spring.educativeprojects.kaieducativeplatform.exceptions.NumberFormatException;
 import spring.educativeprojects.kaieducativeplatform.exceptions.ResourceNotFoundException;
 import spring.educativeprojects.kaieducativeplatform.services.AuthorService;
-import spring.educativeprojects.kaieducativeplatform.validators.ValidateAuthor;
+import spring.educativeprojects.kaieducativeplatform.validators.ValidatorAuthor;
 
 
 import java.util.Set;
@@ -30,7 +30,7 @@ public class AuthorController {
 
         Set<AuthorDTO> allAuthors = serviceAuthors.findAll();
 
-        if (ValidateAuthor.allAuthorsIsEmpty(allAuthors)) {
+        if (ValidatorAuthor.allAuthorsIsEmpty(allAuthors)) {
             throw new ResourceNotFoundException("Не один автор не было зафиксированно в базе данных");
         }
 
@@ -42,7 +42,7 @@ public class AuthorController {
 
         AuthorDTO authorDTO = serviceAuthors.findAuthorByCourse(name);
 
-        if (ValidateAuthor.authorIsNull(authorDTO)) {
+        if (ValidatorAuthor.authorIsNull(authorDTO)) {
             throw new ResourceNotFoundException("Автор не был зафиксирован в базе данных");
         }
 
@@ -52,9 +52,9 @@ public class AuthorController {
     @RequestMapping("/id/{id}")
     public ResponseEntity<AuthorDTO> findById(@PathVariable String id) {
 
-        if (ValidateAuthor.idEmptyAuthorValidator(id)) {
+        if (ValidatorAuthor.idEmptyAuthorValidator(id)) {
             throw new BadRequestException("Введенная значение пустой");
-        }else if (ValidateAuthor.idAuthorValidator(id)) {
+        }else if (ValidatorAuthor.idAuthorValidator(id)) {
             throw new NumberFormatException("Введенный ID являться недействительной");
         }
 
@@ -68,9 +68,9 @@ public class AuthorController {
     @RequestMapping("/name/{name}")
     public ResponseEntity<AuthorDTO> findByName(@PathVariable String name) {
 
-        if (ValidateAuthor.nameIsEmptyAuthorValidator(name)) {
+        if (ValidatorAuthor.nameIsEmptyAuthorValidator(name)) {
             throw new BadRequestException("Введенная значение пустой");
-        }else if (ValidateAuthor.nameAuthorValidator(name)) {
+        }else if (ValidatorAuthor.nameAuthorValidator(name)) {
             throw new NumberFormatException("Значение внесенный в поле 'Название' является недействительной.");
         }
 
@@ -84,9 +84,9 @@ public class AuthorController {
     @PostMapping("/new")
     public ResponseEntity<AuthorDTO> createNewAuthor(@RequestBody AuthorDTO authorDTO) {
 
-        if (ValidateAuthor.nameIsEmptyAuthorValidator(authorDTO.getName())) {
+        if (ValidatorAuthor.nameIsEmptyAuthorValidator(authorDTO.getName())) {
             throw new BadRequestException("Введенная значение пустой");
-        }else if (ValidateAuthor.nameAuthorValidator(authorDTO.getName())) {
+        }else if (ValidatorAuthor.nameAuthorValidator(authorDTO.getName())) {
             throw new NumberFormatException("Значение внесенный в поле 'Название' является недействительной.");
         }
 
@@ -96,15 +96,15 @@ public class AuthorController {
     @PutMapping("/update/{id}")
     public ResponseEntity<AuthorDTO> updateAuthor(@RequestBody AuthorDTO authorDTO, @PathVariable String id) {
 
-        if (ValidateAuthor.idEmptyAuthorValidator(id)) {
+        if (ValidatorAuthor.idEmptyAuthorValidator(id)) {
             throw new BadRequestException("Введенная значение пустой");
-        }else if (ValidateAuthor.idAuthorValidator(id)) {
+        }else if (ValidatorAuthor.idAuthorValidator(id)) {
             throw new NumberFormatException("Введенный ID являться недействительной");
-        }else if (ValidateAuthor.nameIsEmptyAuthorValidator(authorDTO.getName())) {
+        }else if (ValidatorAuthor.nameIsEmptyAuthorValidator(authorDTO.getName())) {
             throw new BadRequestException("Введенная значение пустой");
-        } else if (ValidateAuthor.nameAuthorValidator(authorDTO.getName())) {
+        } else if (ValidatorAuthor.nameAuthorValidator(authorDTO.getName())) {
             throw new NameFormatException("Значение внесенный в поле 'Название' является недействительной.");
-        } else if (ValidateAuthor.authorIsNull(serviceAuthors.findById(new Integer(id)))) {
+        } else if (ValidatorAuthor.authorIsNull(serviceAuthors.findById(new Integer(id)))) {
             throw new ResourceNotFoundException("Введенное ID не был найден в базе данных.");
         }
 
@@ -114,11 +114,11 @@ public class AuthorController {
     @DeleteMapping("/delete")
     public ResponseEntity<Void> delete(@RequestBody AuthorDTO authorDTO) {
 
-        if (ValidateAuthor.nameIsEmptyAuthorValidator(authorDTO.getName())) {
+        if (ValidatorAuthor.nameIsEmptyAuthorValidator(authorDTO.getName())) {
             throw new BadRequestException("Введенная значение пустой");
-        }else if (ValidateAuthor.nameAuthorValidator(authorDTO.getName())) {
+        }else if (ValidatorAuthor.nameAuthorValidator(authorDTO.getName())) {
             throw new NameFormatException("Значение внесенный в поле 'Название' является недействительной.");
-        }else if (ValidateAuthor.authorIsNull(serviceAuthors.findByName(authorDTO.getName()))) {
+        }else if (ValidatorAuthor.authorIsNull(serviceAuthors.findByName(authorDTO.getName()))) {
             throw new ResourceNotFoundException("Введенный имя не был найден в базе данных.");
         }
 
@@ -130,11 +130,11 @@ public class AuthorController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
 
-        if (ValidateAuthor.idEmptyAuthorValidator(id)) {
+        if (ValidatorAuthor.idEmptyAuthorValidator(id)) {
             throw new BadRequestException("Введенная значение пустой");
-        }else if (ValidateAuthor.idAuthorValidator(id)) {
+        }else if (ValidatorAuthor.idAuthorValidator(id)) {
             throw new NumberFormatException("Веденный формат ID недействительный.");
-        }else if (ValidateAuthor.authorIsNull(serviceAuthors.findById(new Integer(id)))) {
+        }else if (ValidatorAuthor.authorIsNull(serviceAuthors.findById(new Integer(id)))) {
             throw new ResourceNotFoundException("Введенный ID не был найден в базе данных.");
         }
 
