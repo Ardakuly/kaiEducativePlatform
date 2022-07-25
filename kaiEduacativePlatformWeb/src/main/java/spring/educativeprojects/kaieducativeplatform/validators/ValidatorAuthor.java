@@ -4,7 +4,7 @@ import spring.educativeprojects.kaieducativeplatform.dto.AuthorDTO;
 
 import java.util.Set;
 
-public class ValidateAuthor {
+public class ValidatorAuthor {
 
 
     public static boolean allAuthorsIsEmpty(Set<AuthorDTO> allAuthors) {

@@ -42,4 +42,26 @@ public class ExceptionHandlerAdvicer {
 
         return new ResponseEntity<>(exceptionDetail, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(UserEmailNotValidException.class)
+    public ResponseEntity<?> userEmailNotValid (UserEmailNotValidException userEmailNotValidException, WebRequest request) {
+        ExceptionDetail exceptionDetail = new ExceptionDetail(new Date(), userEmailNotValidException.getMessage(),
+                request.getDescription(true));
+
+        return new ResponseEntity<>(exceptionDetail, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserPasswordNotValidException.class)
+    public ResponseEntity<?> userPasswordNotValid (UserPasswordNotValidException userPasswordNotValidException, WebRequest request) {
+        ExceptionDetail exceptionDetail = new ExceptionDetail(new Date(), userPasswordNotValidException.getMessage(),
+                request.getDescription(true));
+
+        return new ResponseEntity<>(exceptionDetail, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TokenException.class)
+    public ResponseEntity<?> tokenException(TokenException tokenException, WebRequest request) {
+        ExceptionDetail exceptionDetail = new ExceptionDetail(new Date(), tokenException.getMessage(), request.getDescription(true));
+        return new ResponseEntity<>(exceptionDetail, HttpStatus.BAD_REQUEST);
+    }
 }
