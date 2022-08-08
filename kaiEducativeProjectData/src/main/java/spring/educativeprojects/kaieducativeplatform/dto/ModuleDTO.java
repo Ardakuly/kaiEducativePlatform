@@ -5,22 +5,15 @@ import java.util.Set;
 
 public class ModuleDTO {
 
-    //private Integer id;
-
     private String name;
+
+    private String description;
 
     private Set<LessonDTO> lessonsDTO = new HashSet<>();
 
-    //private CourseDTO courseDTO;
+    private CourseDTO courseDTO;
 
 
-//    public Integer getId() {
-//        return id;
-//    }
-//
-//    public void setId(Integer id) {
-//        this.id = id;
-//    }
 
     public String getName() {
         return name;
@@ -28,6 +21,14 @@ public class ModuleDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Set<LessonDTO> getLessonsDTO() {
@@ -38,11 +39,11 @@ public class ModuleDTO {
         this.lessonsDTO = lessonsDTO;
     }
 
-//    public CourseDTO getCourseDTO() {
-//        return courseDTO;
-//    }
-//
-//    public void setCourseDTO(CourseDTO courseDTO) {
-//        this.courseDTO = courseDTO;
-//    }
+    public CourseDTO getCourseDTO() {
+        return courseDTO;
+    }
+
+    public void setCourseDTO(CourseDTO courseDTO) {
+        this.courseDTO = courseDTO;
+    }
 }

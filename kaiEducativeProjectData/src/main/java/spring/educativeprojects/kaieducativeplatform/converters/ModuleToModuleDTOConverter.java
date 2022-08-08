@@ -23,7 +23,7 @@ public class ModuleToModuleDTOConverter implements Converter<Module, ModuleDTO> 
         final ModuleDTO moduleCommand = new ModuleDTO();
         //moduleCommand.setId(source.getId());
         moduleCommand.setName(source.getName());
-
+        moduleCommand.setDescription(source.getDescription());
         if (source.getLessons() != null && source.getLessons().size() > 0) {
             source.getLessons().forEach(lesson -> moduleCommand.getLessonsDTO().add(convertLesson.convert(lesson)));
         }

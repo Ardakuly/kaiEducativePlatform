@@ -97,13 +97,21 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public LessonDTO save(LessonDTO lessonDTO) {
-        Lesson lesson = repositoryLesson.save(converterLesson.convert(lessonDTO));
 
-        return converterLessonDTO.convert(lesson);
+        if (repositoryLesson.findByName(lessonDTO.getName()).isPresent()) return null;
+
+        Lesson lesson = converterLesson.convert(lessonDTO);
+
+        lesson.setModule(repositoryModule.findByName(lessonDTO.getModuleDTO().getName()).get());
+
+        Lesson forReturn = repositoryLesson.save(lesson);
+
+        return converterLessonDTO.convert(forReturn);
     }
 
     @Override
     public void delete(LessonDTO lessonDTO) {
+
         Lesson lesson = repositoryLesson.findByName(lessonDTO.getName()).get();
         repositoryLesson.delete(lesson);
     }
@@ -112,7 +120,6 @@ public class LessonServiceImpl implements LessonService {
     public void deleteById(Integer id) {
         repositoryLesson.deleteById(id);
     }
-
 
 
     //----------------------END------------------------------//

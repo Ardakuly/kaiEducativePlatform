@@ -1,0 +1,14 @@
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAXAI37QMW77XDYKFM
+      secret-key: 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
+    region:
+      static: eu-north-1
+    stack:
+      auto: false
+
+
+application:
+  bucket:
+    name: kaieducativeplatform

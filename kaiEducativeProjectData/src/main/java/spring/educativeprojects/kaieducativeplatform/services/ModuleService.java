@@ -13,5 +13,7 @@ public interface ModuleService extends CrudService<ModuleDTO, Integer> {
 
     ModuleDTO updateModule(ModuleDTO moduleDTO, Integer id);
 
-    ModuleDTO addLessons(ModuleDTO moduleDTO, String name);
+   // ModuleDTO addLessons(ModuleDTO moduleDTO, String name);
+
+    //void mapModuleToCourse(String courseName, ModuleDTO moduleDTO);
 }

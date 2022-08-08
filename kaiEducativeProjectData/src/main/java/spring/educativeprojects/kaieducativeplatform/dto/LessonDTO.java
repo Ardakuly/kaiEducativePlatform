@@ -6,17 +6,12 @@ public class LessonDTO {
 
     private String name;
 
-    //need to add video
+    private String description;
+
+    private String videoLink;
 
     private ModuleDTO moduleDTO;
 
-//    public Integer getId() {
-//        return id;
-//    }
-//
-//    public void setId(Integer id) {
-//        this.id = id;
-//    }
 
     public String getName() {
         return name;
@@ -24,6 +19,22 @@ public class LessonDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getVideoLink() {
+        return videoLink;
+    }
+
+    public void setVideoLink(String videoLink) {
+        this.videoLink = videoLink;
     }
 
     public ModuleDTO getModuleDTO() {

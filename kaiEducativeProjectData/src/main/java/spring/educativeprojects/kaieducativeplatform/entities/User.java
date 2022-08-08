@@ -2,6 +2,8 @@ package spring.educativeprojects.kaieducativeplatform.entities;
 
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -10,7 +12,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
     private String firstName;
     private String secondName;
     private String password;
@@ -19,8 +20,15 @@ public class User {
     private Boolean enabled = false;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private UserRoles role;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserAuthorities permission;
+
+    @OneToMany
+    private List<Course> enrolledCourses;
 
     public int getId() {
         return id;
@@ -78,11 +86,32 @@ public class User {
         this.enabled = enabled;
     }
 
+    public List<Course> getEnrolledCourses() {
+        return enrolledCourses;
+    }
+
+    public void setEnrolledCourses(List<Course> enrolledCourses) {
+        this.enrolledCourses = enrolledCourses;
+    }
+
     public UserRoles getRole() {
         return role;
     }
 
     public void setRole(UserRoles role) {
         this.role = role;
+    }
+
+    public UserAuthorities getPermission() {
+        return permission;
+    }
+
+    public void setPermission(UserAuthorities permission) {
+        this.permission = permission;
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + secondName + " " + email;
     }
 }

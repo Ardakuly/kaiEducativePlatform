@@ -9,20 +9,20 @@ import java.util.Set;
 @Table(name = "courses")
 public class Course extends BaseEntity{
 
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "author_id", nullable = false)
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Author author;
 
-    @JoinColumn(name = "instructor_id")
+    @JoinColumn(name = "instructor_id", nullable = false)
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Instructor instructor;
 
-    @OneToMany(cascade = CascadeType.ALL, /*mappedBy = "course",*/ fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
     private Set<Module> modules = new HashSet<>();
 
-    //@JoinColumn(name = "sphere_id")
-    //@ManyToOne
-    //private String sphere;
+    @JoinColumn(name = "sphere_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private Sphere sphere;
 
     public Author getAuthor() {
         return author;
@@ -48,11 +48,11 @@ public class Course extends BaseEntity{
         this.modules = modules;
     }
 
-//    public Sphere getSphere() {
-//        return sphere;
-//    }
-//
-//    public void setSphere(Sphere sphere) {
-//        this.sphere = sphere;
-//    }
+    public Sphere getSphere() {
+        return sphere;
+    }
+
+    public void setSphere(Sphere sphere) {
+        this.sphere = sphere;
+    }
 }

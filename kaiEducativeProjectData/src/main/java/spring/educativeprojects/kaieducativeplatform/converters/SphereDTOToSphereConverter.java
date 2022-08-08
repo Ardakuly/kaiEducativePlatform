@@ -22,7 +22,7 @@ public class SphereDTOToSphereConverter implements Converter<SphereDTO, Sphere> 
 
         //sphere.setId(source.getId());
         sphere.setName(source.getName());
-
+        sphere.setDescription(source.getDescription());
         if(source != null && source.getCoursesDTO().size() > 0) {
             source.getCoursesDTO().forEach(courseDTO -> sphere.getCourses().add(converter.convert(courseDTO)));
         }

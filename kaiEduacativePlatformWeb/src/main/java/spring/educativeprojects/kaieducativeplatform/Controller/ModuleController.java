@@ -71,7 +71,7 @@ public class ModuleController {
         return new ResponseEntity<ModuleDTO>(moduleDTO,HttpStatus.OK);
     }
 
-    @PostMapping("/module/new")
+    @PostMapping("/module/modification/new")
     public ResponseEntity<ModuleDTO> createNewModule(@RequestBody ModuleDTO moduleDTO) {
 
         if (ValidatorModule.nameIsEmptyModuleValidator(moduleDTO.getName())) {
@@ -80,10 +80,15 @@ public class ModuleController {
 
          ModuleDTO moduleDTO1 = serviceModules.save(moduleDTO);
 
+        if (moduleDTO1 == null) {
+            throw new BadRequestException(String.format("Модуль с именем %s уже существует", moduleDTO.getName()));
+        }
+
+
         return new ResponseEntity<ModuleDTO>(moduleDTO1, HttpStatus.CREATED);
     }
 
-    @PutMapping("/module/update/{id}")
+    @PutMapping("/module/modification/update/{id}")
     public ResponseEntity<ModuleDTO> updateModule(@RequestBody ModuleDTO moduleDTO, @PathVariable String id) {
 
         if (ValidatorModule.idEmptyModuleValidator(id)) {
@@ -101,26 +106,8 @@ public class ModuleController {
         return new ResponseEntity<ModuleDTO>(serviceModules.updateModule(moduleDTO,new Integer(id)), HttpStatus.OK);
     }
 
-    @PatchMapping("/module/update/{name}")
-    public ResponseEntity<ModuleDTO> addLesson(@RequestBody ModuleDTO moduleDTO, @PathVariable String name) {
 
-        if (ValidatorModule.nameIsEmptyModuleValidator(name)) {
-            throw new BadRequestException("Введенная значение пустой");
-        }else if (ValidatorModule.nameModuleValidator(name)) {
-            throw new NumberFormatException("Введенное название являться недействительной");
-        }else if (ValidatorModule.nameIsEmptyModuleValidator(moduleDTO.getName())) {
-            throw new BadRequestException("Введенная значение пустой");
-        } else if (ValidatorModule.nameModuleValidator(moduleDTO.getName())) {
-            throw new NameFormatException("Значение внесенный в поле 'Название' является недействительной.");
-        } else if (ValidatorModule.moduleIsNullValidator(serviceModules.findByName(name))) {
-            throw new ResourceNotFoundException("Введенное ID не был найден в базе данных.");
-        }
-
-
-         return new ResponseEntity<ModuleDTO>(serviceModules.addLessons(moduleDTO,name), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/module/delete")
+    @DeleteMapping("/module/modification/delete")
     public ResponseEntity<Void> delete(@RequestBody ModuleDTO moduleDTO) {
 
         if (ValidatorModule.nameIsEmptyModuleValidator(moduleDTO.getName())) {
@@ -134,7 +121,7 @@ public class ModuleController {
          return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/module/delete/{id}")
+    @DeleteMapping("/module/modification/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
 
         if (ValidatorModule.idEmptyModuleValidator(id)) {

@@ -15,6 +15,9 @@ public abstract class BaseEntity {
     @Column(name = "Name")
     private String name;
 
+    @Column(name = "Description")
+    private String description;
+
 
 
     //------------------ Getters and Setters------------------//
@@ -33,6 +36,14 @@ public abstract class BaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     //----------------------END------------------------------//

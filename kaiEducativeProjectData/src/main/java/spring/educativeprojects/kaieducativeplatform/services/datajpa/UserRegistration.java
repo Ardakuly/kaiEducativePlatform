@@ -15,7 +15,6 @@ public class UserRegistration {
 
     private final UserDetailServiceImpl uerDetailServiceImpl;
     private final BCryptPasswordEncoder passwordEncoder;
-
     private final ConfirmationTokenServiceImpl confirmationTokenService;
 
     @Autowired
