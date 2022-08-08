@@ -2,14 +2,19 @@ package spring.educativeprojects.kaieducativeplatform.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import spring.educativeprojects.kaieducativeplatform.entities.UserAuthorities;
+import spring.educativeprojects.kaieducativeplatform.entities.UserRoles;
 import spring.educativeprojects.kaieducativeplatform.services.datajpa.UserDetailServiceImpl;
 
+@Configuration
 @EnableWebSecurity
 public class kaiEducativePlatformSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -34,9 +39,14 @@ public class kaiEducativePlatformSecurityConfiguration extends WebSecurityConfig
                  .authorizeRequests()
                  .antMatchers("/users/v1/signUp", "/users/v1/confirm**")
                  .permitAll()
+                 .antMatchers("/**/modification/**")
+                 .hasAuthority(UserAuthorities.READ_WRITE.name())
+                 .antMatchers(HttpMethod.GET, "/sphere/v1/**/course/**", "/sphere/v1/course/**/module/**", "/sphere/v1/course/module/**/lesson/**")
+                 //.hasRole(UserRoles.PAID_USER.name())
+                 .permitAll()
                  .anyRequest()
-                 .authenticated()
-                 .and().formLogin();
+                 .permitAll()
+                 .and().httpBasic();
     }
 
     @Bean

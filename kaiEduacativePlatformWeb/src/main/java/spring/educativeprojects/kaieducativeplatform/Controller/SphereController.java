@@ -70,7 +70,7 @@ public class SphereController {
     }
 
 
-    @PostMapping("/new")
+    @PostMapping("/modification/new")
     public ResponseEntity<SphereDTO> createNewSphere(@RequestBody SphereDTO sphereDTO) {
 
         if (ValidatorSphere.nameSphereEmptyValidator(sphereDTO)) {
@@ -82,7 +82,7 @@ public class SphereController {
         return new ResponseEntity<SphereDTO>(serviceSpheres.save(sphereDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/modification/update/{id}")
     public ResponseEntity<SphereDTO> updateSphere(@RequestBody SphereDTO sphereDTO, @PathVariable String id) {
 
         if (ValidatorSphere.idSphereEmptyValidator(id)) {
@@ -100,21 +100,7 @@ public class SphereController {
         return new ResponseEntity<SphereDTO>(serviceSpheres.updateSphere(sphereDTO,new Integer(id)), HttpStatus.OK);
     }//course exception must be handled in service layer
 
-    @PatchMapping("/update/{name}")
-    public ResponseEntity<SphereDTO> addCourses(@RequestBody SphereDTO sphereDTO, @PathVariable String name) {
-
-        if (ValidatorSphere.nameSphereEmptyValidator(name)) {
-            throw new BadRequestException("Введенная значение пустой");
-        } else if (ValidatorSphere.nameSphereValidator(name)) {
-            throw new NameFormatException("Значение внесенный в поле 'Название' является недействительной.");
-        }else if (serviceSpheres.findByName(name) == null) {
-            throw new ResourceNotFoundException("Введенная значение не был найден в базе данных.");
-        }
-
-        return new ResponseEntity<SphereDTO>(serviceSpheres.addCourses(sphereDTO, name), HttpStatus.OK);
-    }//course exception must be handled in service layer
-
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/modification/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
 
         if (ValidatorSphere.idSphereEmptyValidator(id)) {
@@ -125,11 +111,13 @@ public class SphereController {
             throw new ResourceNotFoundException("Введенный ID не был найден в базе данных.");
         }
 
+
+
         serviceSpheres.deleteById(new Integer(id));
         return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/modification/delete")
     public ResponseEntity<Void> delete(@RequestBody SphereDTO sphereDTO) {
 
         if (ValidatorSphere.nameSphereEmptyValidator(sphereDTO)) {

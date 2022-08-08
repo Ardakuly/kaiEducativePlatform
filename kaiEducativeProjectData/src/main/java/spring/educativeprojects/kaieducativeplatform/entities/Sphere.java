@@ -9,7 +9,7 @@ import java.util.Set;
 public class Sphere extends BaseEntity{
 
 
-    @OneToMany(cascade = CascadeType.ALL, /* mappedBy = "sphere",*/ fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "sphere", fetch = FetchType.EAGER)
     private Set<Course> courses = new HashSet<>();
 
     //------------------ Getters and Setters------------------//

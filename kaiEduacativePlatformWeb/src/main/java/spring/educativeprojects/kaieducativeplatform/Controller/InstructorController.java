@@ -90,7 +90,7 @@ public class InstructorController {
         return new ResponseEntity<InstructorDTO>(instructorDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/new")
+    @PostMapping("/modification/new")
     public ResponseEntity<InstructorDTO> createNewInstructor(@RequestBody InstructorDTO instructorDTO) {
 
         if (ValidatorInstructor.nameIsEmptyInstructorValidator(instructorDTO.getName())) {
@@ -102,7 +102,7 @@ public class InstructorController {
         return new ResponseEntity<InstructorDTO>(serviceInstructors.save(instructorDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/modification/update/{id}")
     public ResponseEntity<InstructorDTO> updateInstructor(@RequestBody InstructorDTO instructorDTO, @PathVariable String id) {
 
         if (ValidatorInstructor.idEmptyInstructorValidator(id)) {
@@ -121,7 +121,7 @@ public class InstructorController {
         return new ResponseEntity<InstructorDTO>(serviceInstructors.findById(new Integer(id)), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/modification/delete")
     public ResponseEntity<Void> delete(@RequestBody InstructorDTO instructorDTO) {
 
         if (ValidatorInstructor.nameIsEmptyInstructorValidator(instructorDTO.getName())) {
@@ -137,7 +137,7 @@ public class InstructorController {
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/modification/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
 
         if (ValidatorInstructor.idEmptyInstructorValidator(id)) {

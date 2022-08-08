@@ -54,6 +54,7 @@ public class SphereServiceImpl implements SphereService {
 
     @Override
     public SphereDTO findById(Integer id) {
+
         Optional<Sphere> optSphere = repositorySphere.findById(id);
         Sphere sphere = null;
         if (optSphere.isPresent()) sphere = optSphere.get();
@@ -85,29 +86,6 @@ public class SphereServiceImpl implements SphereService {
         return converterToSphereDTO.convert(sphereReturned);
     }
 
-    @Override
-    public SphereDTO addCourses(SphereDTO sphereDTO, String name) { //need to be updated.
-        Optional<Sphere> optSphere = repositorySphere.findByName(name);
-        Sphere sphere = optSphere.get();
-
-        if(sphere.getCourses().size() == 0) {
-            sphereDTO.getCoursesDTO().
-                    forEach(sphereDTOEach -> sphere.getCourses().add(repositoryCourse.findByName(sphereDTOEach.getName()).get()));
-        }else {
-            for (CourseDTO courseDTO : sphereDTO.getCoursesDTO()) {
-                boolean isThere = false;
-                for (Course course : sphere.getCourses()) {
-                    if (courseDTO.getName().equals(course.getName())) {
-                        isThere = true;
-                    }
-                }
-                if(!isThere) sphere.getCourses().add(repositoryCourse.findByName(courseDTO.getName()).get());
-            }
-        }
-
-        Sphere returnedSphere = repositorySphere.save(sphere);
-        return converterToSphereDTO.convert(returnedSphere);
-    }
 
     @Override
     public SphereDTO save(SphereDTO sphereDTO) {

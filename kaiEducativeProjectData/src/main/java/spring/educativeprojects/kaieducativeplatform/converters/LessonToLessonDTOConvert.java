@@ -16,7 +16,7 @@ public class LessonToLessonDTOConvert implements Converter<Lesson, LessonDTO> {
 
         //lessonCommand.setId(source.getId());
         lessonCommand.setName(source.getName());
-
+        lessonCommand.setDescription(source.getDescription());
 
         return lessonCommand;
     }

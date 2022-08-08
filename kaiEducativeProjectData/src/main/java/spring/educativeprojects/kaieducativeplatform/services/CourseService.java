@@ -21,10 +21,8 @@ public interface CourseService extends CrudService<CourseDTO, Integer> {
 
      CourseDTO updateCourse(CourseDTO courseDTO, Integer id);
 
-     CourseDTO addModules(CourseDTO courseDTO, String name);
+     //CourseDTO addModules(CourseDTO courseDTO, String name);
 
-     Set<CourseDTO> findAllSpheresByCourse(String name);
-
-      void deleteCourseFromSphere(String name);
+     Set<CourseDTO> findAllCoursesBySphere(String name);
 
 }

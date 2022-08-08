@@ -1,18 +1,17 @@
 package spring.educativeprojects.kaieducativeplatform.services.datajpa;
 
+import org.springframework.security.core.Authentication;
 import spring.educativeprojects.kaieducativeplatform.converters.AuthorDTOToAuthorConverter;
 import spring.educativeprojects.kaieducativeplatform.converters.CourseDTOToCourseConverter;
 import spring.educativeprojects.kaieducativeplatform.converters.CourseToCourseDTOConverter;
 import spring.educativeprojects.kaieducativeplatform.converters.InstructorDTOToInstructorConverter;
+import spring.educativeprojects.kaieducativeplatform.currentLogUser.IAuthenticationPrincipal;
 import spring.educativeprojects.kaieducativeplatform.dto.*;
-import spring.educativeprojects.kaieducativeplatform.entities.Author;
-import spring.educativeprojects.kaieducativeplatform.entities.Instructor;
+import spring.educativeprojects.kaieducativeplatform.entities.*;
 import spring.educativeprojects.kaieducativeplatform.entities.Module;
-import spring.educativeprojects.kaieducativeplatform.entities.Sphere;
 import spring.educativeprojects.kaieducativeplatform.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import spring.educativeprojects.kaieducativeplatform.entities.Course;
 import spring.educativeprojects.kaieducativeplatform.services.CourseService;
 
 import java.util.HashSet;
@@ -40,12 +39,14 @@ public class CourseServiceImpl implements CourseService {
 
     private final InstructorDTOToInstructorConverter converterInstructor;
 
+
     @Autowired
     public CourseServiceImpl(SphereRepository repositorySphere, CourseRepository repositoryCourse,
                              AuthorRepository repositoryAuthor, InstructorRepository repositoryInstructor,
                              ModuleRepository repositoryModule, CourseToCourseDTOConverter converterToDTO,
                              CourseDTOToCourseConverter converterToCourse, AuthorDTOToAuthorConverter converterAuthor,
-                             InstructorDTOToInstructorConverter converterInstructor) {
+                             InstructorDTOToInstructorConverter converterInstructor
+                             ) {
         this.repositorySphere = repositorySphere;
         this.repositoryCourse = repositoryCourse;
         this.repositoryAuthor = repositoryAuthor;
@@ -67,7 +68,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Set<CourseDTO> findAllSpheresByCourse(String name) {
+    public Set<CourseDTO> findAllCoursesBySphere(String name) {
+
         Optional<Sphere> sphereOpt = repositorySphere.findByName(name);
 
         Set<CourseDTO> coursesDTO = new HashSet<>();
@@ -127,9 +129,14 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseDTO save(CourseDTO courseDTO) {
+
+        if (repositoryCourse.findByName(courseDTO.getName()).isPresent()) return null;
+
         Course convertedCourse = converterToCourse.convert(courseDTO);
 
         Course courseMapped = authorInstructorMapped(convertedCourse);
+
+        convertedCourse.setSphere(repositorySphere.findByName(courseDTO.getSphereDTO().getName()).get());
 
         Course course = repositoryCourse.save(courseMapped);
         return converterToCourseDTO.convert(course);
@@ -153,40 +160,16 @@ public class CourseServiceImpl implements CourseService {
         return converterToCourseDTO.convert(sphereReturned);
     }
 
-    @Override
-    public CourseDTO addModules(CourseDTO courseDTO, String name) { //need to be updated.
-        Optional<Course> optCourse = repositoryCourse.findByName(name);
-        Course course = optCourse.get();
-
-        if(course.getModules().size() == 0) {
-            courseDTO.getModulesDTO().
-                    forEach(moduleDTOEach -> course.getModules().add(repositoryModule.findByName(moduleDTOEach.getName()).get()));
-        }else {
-            for (ModuleDTO moduleDTO : courseDTO.getModulesDTO()) {
-                boolean isThere = false;
-                for (Module module : course.getModules()) {
-                    if (moduleDTO.getName().equals(module.getName())) {
-                        isThere = true;
-                    }
-                }
-                if(!isThere) course.getModules().add(repositoryModule.findByName(moduleDTO.getName()).get());
-            }
-        }
-
-        Course returnedCourse = repositoryCourse.save(course);
-        return converterToCourseDTO.convert(returnedCourse);
-    }
-
 
     @Override
     public void delete(CourseDTO courseDTO) {
+        System.out.println(courseDTO.getName());
         Course course = repositoryCourse.findByName(courseDTO.getName()).get();
         repositoryCourse.delete(course);
     }
 
     @Override
     public void deleteById(Integer id) {
-        deleteCourseFromSphere(repositoryCourse.findById(id).get().getName());
         repositoryCourse.deleteById(id);
     }
 
@@ -206,23 +189,29 @@ public class CourseServiceImpl implements CourseService {
         return coursesDTO;
     }
 
-    @Override
-    public void deleteCourseFromSphere(String name) {
-        Course course = repositoryCourse.findByName(name).get();
 
-        Set<Sphere> spheres = new HashSet<>();
-        repositorySphere.findAll().forEach(sphere -> spheres.add(sphere));
+//    private boolean isEnrolledId(Integer id, Authentication user) {
+//
+//        User cur = userRepository.findByEmail(user.getPrincipal().toString()).get();
+//
+//        for (Course course : cur.getEnrolledCourses()) {
+//            if (course.getId().equals(id)) return true;
+//        }
+//
+//        return false;
+//    }
+//
+//    private boolean isEnrolledName(String name, Authentication user) {
+//
+//        User cur = userRepository.findByEmail(user.getPrincipal().toString()).get();
+//
+//        for (Course course : cur.getEnrolledCourses()) {
+//            if (course.getName().equals(name)) return true;
+//        }
+//
+//        return false;
+//    }
 
-        for (Sphere sphere : spheres) {
-            for (Course course1 : sphere.getCourses()) {
-                if (course1.getName().equals(course.getName())) {
-                    sphere.getCourses().remove(course1);
-                    repositorySphere.save(sphere);
-                }
-            }
-        }
-
-    }
 
     //----------------------END------------------------------//
 }

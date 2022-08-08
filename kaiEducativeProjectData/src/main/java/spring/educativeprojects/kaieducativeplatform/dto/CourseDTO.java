@@ -11,17 +11,12 @@ public class CourseDTO {
     private AuthorDTO authorDTO;
     private InstructorDTO instructorDTO;
 
-   // private SphereDTO sphereDTO;
+    private String description;
+
+    private SphereDTO sphereDTO;
 
     private Set<ModuleDTO> modulesDTO = new HashSet<>();
 
-//    public Integer getId() {
-//        return id;
-//    }
-//
-//    public void setId(Integer id) {
-//        this.id = id;
-//    }
 
     public String getName() {
         return name;
@@ -47,13 +42,21 @@ public class CourseDTO {
         this.instructorDTO = instructorDTO;
     }
 
-//    public SphereDTO getSphereDTO() {
-//        return sphereDTO;
-//    }
-//
-//    public void setSphereDTO(SphereDTO sphereDTO) {
-//        this.sphereDTO = sphereDTO;
-//    }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public SphereDTO getSphereDTO() {
+        return sphereDTO;
+    }
+
+    public void setSphereDTO(SphereDTO sphereDTO) {
+        this.sphereDTO = sphereDTO;
+    }
 
     public Set<ModuleDTO> getModulesDTO() {
         return modulesDTO;

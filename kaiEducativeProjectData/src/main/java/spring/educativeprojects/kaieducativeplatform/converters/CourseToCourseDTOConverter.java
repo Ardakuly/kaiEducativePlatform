@@ -31,6 +31,7 @@ public class CourseToCourseDTOConverter implements Converter<Course, CourseDTO> 
         final CourseDTO courseCommand = new CourseDTO();
         //courseCommand.setId(source.getId());
         courseCommand.setName(source.getName());
+        courseCommand.setDescription(source.getDescription());
         courseCommand.setAuthorDTO(convertAuthor.convert(source.getAuthor()));
         courseCommand.setInstructorDTO(convertInstructor.convert(source.getInstructor()));
 

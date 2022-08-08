@@ -81,7 +81,7 @@ public class AuthorController {
         return new ResponseEntity<AuthorDTO>(authorDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/new")
+    @PostMapping("/modification/new")
     public ResponseEntity<AuthorDTO> createNewAuthor(@RequestBody AuthorDTO authorDTO) {
 
         if (ValidatorAuthor.nameIsEmptyAuthorValidator(authorDTO.getName())) {
@@ -93,7 +93,7 @@ public class AuthorController {
         return new ResponseEntity<AuthorDTO>(serviceAuthors.save(authorDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/modification/update/{id}")
     public ResponseEntity<AuthorDTO> updateAuthor(@RequestBody AuthorDTO authorDTO, @PathVariable String id) {
 
         if (ValidatorAuthor.idEmptyAuthorValidator(id)) {
@@ -111,7 +111,7 @@ public class AuthorController {
         return new ResponseEntity<AuthorDTO>(serviceAuthors.updateAuthor(authorDTO, new Integer(id)), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/modification/delete")
     public ResponseEntity<Void> delete(@RequestBody AuthorDTO authorDTO) {
 
         if (ValidatorAuthor.nameIsEmptyAuthorValidator(authorDTO.getName())) {
@@ -127,7 +127,7 @@ public class AuthorController {
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/modification/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
 
         if (ValidatorAuthor.idEmptyAuthorValidator(id)) {

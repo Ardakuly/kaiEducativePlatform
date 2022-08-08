@@ -6,12 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import spring.educativeprojects.kaieducativeplatform.entities.AppUserDetails;
-import spring.educativeprojects.kaieducativeplatform.entities.User;
-import spring.educativeprojects.kaieducativeplatform.entities.UserRoles;
+import spring.educativeprojects.kaieducativeplatform.entities.*;
 import spring.educativeprojects.kaieducativeplatform.exceptions.BadRequestException;
 import spring.educativeprojects.kaieducativeplatform.repositories.UserRepository;
-import spring.educativeprojects.kaieducativeplatform.entities.ConfirmationToken;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -41,7 +38,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if (repositoryUser.findByEmail(user.getEmail()).isPresent()) {
             throw new BadRequestException("Почтовый адрес уже используеться другим пользователем.");
         }
+
         user.setRole(UserRoles.USER);
+        user.setPermission(UserAuthorities.READ_WRITE);
         repositoryUser.save(user);
 
         String token = UUID.randomUUID().toString();
