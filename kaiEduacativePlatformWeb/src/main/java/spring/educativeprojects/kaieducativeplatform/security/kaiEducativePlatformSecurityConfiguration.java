@@ -45,7 +45,7 @@ public class kaiEducativePlatformSecurityConfiguration extends WebSecurityConfig
                  //.hasRole(UserRoles.PAID_USER.name())
                  .permitAll()
                  .anyRequest()
-                 .permitAll()
+                 .authenticated()
                  .and().httpBasic();
     }
 

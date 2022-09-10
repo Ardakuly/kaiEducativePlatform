@@ -87,7 +87,7 @@ public class LessonController {
         }else if (ValidatorLesson.nameLessonValidator(lessonDTO.getName())) {
             throw new NameFormatException("Значение внесенный в поле 'Название' является недействительной.");
         }
-        
+
         LessonDTO lessonDTO1  = serviceLessons.save(lessonDTO);
 
         if (lessonDTO1 == null) {
