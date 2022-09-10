@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.services.s3.S3Client;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -38,7 +36,7 @@ public class AwsService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/mm/yyyy|hh:mm:ss");
         String name = formatter.format(now) + video.getOriginalFilename();
         File convertedFile = multipartFileToFile(video);
-        s3Client.putObject(new PutObjectRequest(BUCKET, name,convertedFile));
+        s3Client.putObject(new PutObjectRequest(BUCKET, name, convertedFile));
         convertedFile.delete();
         return name;
     }
