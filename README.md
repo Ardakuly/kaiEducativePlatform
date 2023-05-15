@@ -4,7 +4,7 @@ KAI is educational academy in the field of Information Communication Technology 
 
 Used technologies and projects: Spring Core, Spring Data JPA, Spirng Boot, Spring Security, Amazon S3, MySQL. 
 
-Unit tests written in: JUnit
+Unit tests written in: JUnit, MockitoMock
 
 Accomplishments: 
 
