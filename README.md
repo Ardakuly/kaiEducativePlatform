@@ -3,6 +3,7 @@
 KAI is educational academy in the field of Information Communication Technology located in Kazakhstan, Astana. Rest API was implemented for future transformation of offline teaching mode to online one. 
 
 Used technologies and projects: Spring Core, Spring Data JPA, Spirng Boot, Spring Security, Amazon S3, MySQL. 
+
 Unit tests written in: JUnit
 
 Accomplishments: 
